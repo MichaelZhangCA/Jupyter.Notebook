@@ -52,6 +52,8 @@ def update_companyinfo():
         print ('==> all new tickers have been updated')
     else:
         print ('==| there is no new ticker to update')
+
+
 def main():
     # set database connection info
     RepoBase.DbConnection.init_connection(serverName, databaseName, userName, password)

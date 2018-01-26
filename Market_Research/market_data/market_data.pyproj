@@ -24,13 +24,15 @@
     <Compile Include="alpha\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="dq.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="iex\IexApi.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="iex\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="market_data.py" />
     <Compile Include="repository\ReferenceData.py">
       <SubType>Code</SubType>
     </Compile>
