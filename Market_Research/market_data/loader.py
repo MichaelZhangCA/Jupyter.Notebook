@@ -1,5 +1,7 @@
 import iex.IexApi as iexapi
 from repository import RepoBase, ReferenceData
+import marketindex as idx
+
 
 serverName = "127.0.0.1"
 userName = 'michael'
@@ -56,13 +58,15 @@ def update_companyinfo():
 
 def main():
     # set database connection info
-    RepoBase.DbConnection.init_connection(serverName, databaseName, userName, password)
+    #RepoBase.DbConnection.init_connection(serverName, databaseName, userName, password)
     
     # update the symbol list with latest data
-    refresh_symbollist()
+    #refresh_symbollist()
     # patch all new symbol's company data
-    update_companyinfo()
+    #update_companyinfo()
 
+    data = idx.load_sp500()
+    print (data)
 
 if (__name__ == '__main__'):
     main()

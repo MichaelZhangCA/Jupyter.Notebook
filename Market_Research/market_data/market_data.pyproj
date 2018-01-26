@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>fb8cd957-a018-4a04-905f-d85b39d6308b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>market_data.py</StartupFile>
+    <StartupFile>loader.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,16 +21,31 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="alpha\AlphaApi.py" />
+    <Compile Include="alpha\ApiConfig.py" />
     <Compile Include="alpha\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="dq.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="finsymbols\symbols.py" />
+    <Compile Include="finsymbols\symbol_helper.py" />
+    <Compile Include="finsymbols\__init__.py" />
     <Compile Include="iex\IexApi.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="iex\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="loader.py" />
+    <Compile Include="marketindex\indexloader.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="marketindex\wikihelper.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="marketindex\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="repository\ReferenceData.py">
@@ -43,7 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="alpha\" />
+    <Folder Include="finsymbols\" />
     <Folder Include="iex\" />
+    <Folder Include="marketindex\" />
     <Folder Include="repository\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
