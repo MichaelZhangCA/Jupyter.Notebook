@@ -9,6 +9,7 @@ import re
 from bs4 import BeautifulSoup
 import pandas as pd
 
+"""
 class WikiPages(object):
 
     url_sp500 = "List_of_S%26P_500_companies"
@@ -16,7 +17,7 @@ class WikiPages(object):
 
     file_sp500 = "sp500"
     file_tsx60 = "tsx60"
-
+"""
 
 def save_csv(filename, datalist):
     filepath = os.path.dirname(marketindex.__file__) + "\\cached\\" + filename + "." + datetime.datetime.today().strftime('%Y%m%d') + ".csv"
@@ -38,7 +39,7 @@ def save_html(filename, filedata):
     with open(filepath, "wb") as savedfile:
         savedfile.write(filedata)
 
-def get_wikihtml(wikipage, filename):
+def get_wikihtml(idx):
     '''
     Obtains html from Wikipedia
     Note: API exist but for my use case. Data returned was not parsable. Preferred to use html
@@ -46,14 +47,14 @@ def get_wikihtml(wikipage, filename):
     Ex. http://en.wikipedia.org/w/api.php?format=xml&action=query&titles=List_of_S%26P_500_companies&prop=revisions&rvprop=content
     '''
 
-    wiki_html = requests.get('http://en.wikipedia.org/wiki/{}'.format(wikipage))
+    wiki_html = requests.get('http://en.wikipedia.org/wiki/{}'.format(idx.url))
 
-    if (filename != ""):
+    if (idx.cachefilename != ""):
         # Save file to be used by cache
-        save_html(filename, wiki_html.content)
+        save_html(idx.cachefilename, wiki_html.content)
     return wiki_html.content
 
-def grab_indexfromhtml(page_html, filename):
+def grab_indexfromhtml(page_html, idx):
     wiki_soup = BeautifulSoup(page_html, "html.parser")
     symbol_table = wiki_soup.find(attrs={'class': 'wikitable sortable'})
 
@@ -64,19 +65,25 @@ def grab_indexfromhtml(page_html, filename):
         symbol_raw_data = symbol.find_all("td")
         td_count = 0
         for symbol_data in symbol_raw_data:
+            
+            for key, value in idx.columns.items():
+                if (value == td_count):
+                    symbol_data_content[key] = symbol_data.text
+            """
             if(td_count == 0):
                 symbol_data_content['symbol'] = symbol_data.text
             elif(td_count == 1):
                 symbol_data_content['company'] = symbol_data.text
+            """
 
             td_count += 1
 
         if (bool(symbol_data_content)):
             symbol_data_list.append(symbol_data_content)
 
-    if (filename != ""):
+    if (idx.cachefilename != ""):
         #write csv file
-        save_csv(filename, symbol_data_list)
+        save_csv(idx.cachefilename, symbol_data_list)
 
     # skip table header
     return symbol_data_list

@@ -1,6 +1,7 @@
 import iex.IexApi as iexapi
 from repository import RepoBase, ReferenceData, IndexRepo
 import marketindex as idx
+from marketindex import MarketIndices
 
 
 
@@ -66,9 +67,9 @@ def main():
     # patch all new symbol's company data
     #update_companyinfo()
 
-    data = idx.load_indexsymbol(idx.MarketIndices.SP500)
-    IndexRepo.refresh_symbol(idx.MarketIndices.SP500, data)
-    print( idx.MarketIndices.SP500 + " refreshed")
+    data = idx.load_indexsymbol(MarketIndices.DOW30)
+    IndexRepo.refresh_symbol(MarketIndices.DOW30.name, data)
+    print( MarketIndices.DOW30.name + " refreshed")
 
 if (__name__ == '__main__'):
     main()

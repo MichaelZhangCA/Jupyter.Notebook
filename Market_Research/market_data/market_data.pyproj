@@ -42,6 +42,9 @@
     <Compile Include="marketindex\indexloader.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="marketindex\MarketIndices.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="marketindex\wikihelper.py">
       <SubType>Code</SubType>
     </Compile>

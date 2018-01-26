@@ -1,30 +1,49 @@
 import marketindex.wikihelper as wiki
-from marketindex.wikihelper import WikiPages
+# from marketindex.wikihelper import WikiPages
+from marketindex import MarketIndices
 
+"""
 class MarketIndices(object):
-    """ define name of major market indices"""
+    
+    SP500 = None
+    TSX60 = None
+    NASDAQ100 = None
 
-    SP500 = "S&P 500"
-    TSX60 = "TSX 60"
-    NASDAQ100 = "NASDAQ 100"
+    SP500.name = 'S&P 500'
+    SP500.url = 'List_of_S%26P_500_companies'
+    SP500.cachefilename = 'SP500'
 
+    SP500.name = 'TSX 60'
+    SP500.url = 'S%26P/TSX_60'
+    SP500.cachefilename = 'TSX60'
+
+    NASDAQ100.name = 'NASDAQ 100'
+    NASDAQ100.url = ''
+    NASDQA100.cachefilename = 'NASDAQ100'
+"""
 
 def load_sp500():
-    page = wiki.get_wikihtml(WikiPages.url_sp500, WikiPages.file_sp500)
-    data = wiki.grab_indexfromhtml(page, WikiPages.file_sp500)
+    page = wiki.get_wikihtml(MarketIndices.SP500)
+    data = wiki.grab_indexfromhtml(page, MarketIndices.SP500)
     return data
 
 def load_tsx60():
-    page = wiki.get_wikihtml(WikiPages.url_tsx60, WikiPages.file_tsx60)
-    data = wiki.grab_indexfromhtml(page, WikiPages.file_tsx60)
+    page = wiki.get_wikihtml(MarketIndices.TSX60)
+    data = wiki.grab_indexfromhtml(page, MarketIndices.TSX60)
     return data
 
-def load_indexsymbol(indexname):
+def load_dow30():
+    page = wiki.get_wikihtml(MarketIndices.DOW30)
+    data = wiki.grab_indexfromhtml(page, MarketIndices.DOW30)
+    return data
+
+def load_indexsymbol(idx):
     switcher = {
-        MarketIndices.SP500 : load_sp500,
-        MarketIndices.TSX60 : load_tsx60
+        MarketIndices.SP500.name : load_sp500,
+        MarketIndices.TSX60.name : load_tsx60,
+        MarketIndices.DOW30.name : load_dow30
         }
-    func = switcher.get(indexname, lambda:None)
+    func = switcher.get(idx.name, lambda:None)
     return func()
 
 def main():
