@@ -1,6 +1,7 @@
 import iex.IexApi as iexapi
-from repository import RepoBase, ReferenceData
+from repository import RepoBase, ReferenceData, IndexRepo
 import marketindex as idx
+
 
 
 serverName = "127.0.0.1"
@@ -65,8 +66,9 @@ def main():
     # patch all new symbol's company data
     #update_companyinfo()
 
-    data = idx.load_sp500()
-    print (data)
+    data = idx.load_indexsymbol(idx.MarketIndices.SP500)
+    IndexRepo.refresh_symbol(idx.MarketIndices.SP500, data)
+    print( idx.MarketIndices.SP500 + " refreshed")
 
 if (__name__ == '__main__'):
     main()

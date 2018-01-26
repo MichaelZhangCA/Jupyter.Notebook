@@ -7,6 +7,7 @@ import pprint
 import csv
 import re
 from bs4 import BeautifulSoup
+import pandas as pd
 
 class WikiPages(object):
 
@@ -17,7 +18,21 @@ class WikiPages(object):
     file_tsx60 = "tsx60"
 
 
-def save_file(filename, filedata):
+def save_csv(filename, datalist):
+    filepath = os.path.dirname(marketindex.__file__) + "\\cached\\" + filename + "." + datetime.datetime.today().strftime('%Y%m%d') + ".csv"
+
+    df = pd.DataFrame(datalist)
+    df.to_csv(filepath, sep=',', encoding='utf-8', index=False)
+
+    """
+    with open(filename, "w") as csvfile:
+        wr = csv.writer(csvfile, quoting=csv.QUOTE_ALL, lineterminator='\n', delimiter=',')
+        wr.writerows(datalist)
+        #for row in datalist:
+        #    wr.writerow(row.symbol, row.company)
+    """
+
+def save_html(filename, filedata):
     filepath = os.path.dirname(marketindex.__file__) + "\\cached\\" + filename + "." + datetime.datetime.today().strftime('%Y%m%d') + ".html"
 
     with open(filepath, "wb") as savedfile:
@@ -32,11 +47,13 @@ def get_wikihtml(wikipage, filename):
     '''
 
     wiki_html = requests.get('http://en.wikipedia.org/wiki/{}'.format(wikipage))
-    # Save file to be used by cache
-    save_file(filename, wiki_html.content)
+
+    if (filename != ""):
+        # Save file to be used by cache
+        save_html(filename, wiki_html.content)
     return wiki_html.content
 
-def grab_indexfromhtml(page_html):
+def grab_indexfromhtml(page_html, filename):
     wiki_soup = BeautifulSoup(page_html, "html.parser")
     symbol_table = wiki_soup.find(attrs={'class': 'wikitable sortable'})
 
@@ -54,8 +71,13 @@ def grab_indexfromhtml(page_html):
 
             td_count += 1
 
-        symbol_data_list.append(symbol_data_content)
+        if (bool(symbol_data_content)):
+            symbol_data_list.append(symbol_data_content)
+
+    if (filename != ""):
+        #write csv file
+        save_csv(filename, symbol_data_list)
 
     # skip table header
-    return symbol_data_list[1::]
+    return symbol_data_list
 

@@ -48,6 +48,9 @@
     <Compile Include="marketindex\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="repository\IndexRepo.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="repository\ReferenceData.py">
       <SubType>Code</SubType>
     </Compile>
