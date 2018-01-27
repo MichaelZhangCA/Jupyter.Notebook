@@ -1,6 +1,6 @@
 import iex.IexApi as iexapi
 from repository import RepoBase, ReferenceData, IndexRepo
-import marketindex as idx
+import marketindex
 from marketindex import MarketIndices
 
 
@@ -58,18 +58,31 @@ def update_companyinfo():
         print ('==| there is no new ticker to update')
 
 
+def batchupdate_marketindices():
+    update_marketindices(MarketIndices.NASDAQ100)
+    update_marketindices(MarketIndices.SP500)
+    update_marketindices(MarketIndices.DOW30)
+    update_marketindices(MarketIndices.TSX60)
+
+def update_marketindices(idx):
+    
+    print("==> start loading {0}".format(idx.name))
+    data = marketindex.load_indexsymbol(idx)
+    IndexRepo.refresh_symbol(idx.name, data)
+    print("==> {0} refreshed".format(idx.name))
+
+
 def main():
     # set database connection info
     #RepoBase.DbConnection.init_connection(serverName, databaseName, userName, password)
     
     # update the symbol list with latest data
-    #refresh_symbollist()
+    # refresh_symbollist()
     # patch all new symbol's company data
-    #update_companyinfo()
+    # update_companyinfo()
 
-    data = idx.load_indexsymbol(MarketIndices.DOW30)
-    IndexRepo.refresh_symbol(MarketIndices.DOW30.name, data)
-    print( MarketIndices.DOW30.name + " refreshed")
+    # update market indicies
+    batchupdate_marketindices()
 
 if (__name__ == '__main__'):
     main()

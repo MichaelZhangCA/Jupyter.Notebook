@@ -14,7 +14,7 @@ def refresh_symbol(indexname, symbols):
             "ON DUPLICATE KEY UPDATE "
             "`valid_flag`=1, `update_timestamp`=current_timestamp").format(indexname, cur_date)
 
-    print (query)
+    # print (query)
 
     with DbConnection() as cnx:
         cur = cnx.cursor()

@@ -4,7 +4,6 @@ import os
 import datetime
 import sys
 import pprint
-import csv
 import re
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -87,4 +86,25 @@ def grab_indexfromhtml(page_html, idx):
 
     # skip table header
     return symbol_data_list
+
+def grab_nasdaq_fromhtml(page_html, idx):
+    wiki_soup = BeautifulSoup(page_html, "html.parser")
+    symbol_table = wiki_soup.find(attrs={'class': 'div-col columns column-count column-count-2'})
+
+    symbol_data_list = list()
+
+    for symbol in symbol_table.find_all("li"):
+        symbol_data_content = dict()
+        symbol_data_content['symbol'] = symbol.contents[1].split('(')[1].replace(")","")
+        symbol_data_content['company'] = symbol.find('a').text
+
+        symbol_data_list.append(symbol_data_content)
+
+    if (idx.cachefilename != ""):
+        #write csv file
+        save_csv(idx.cachefilename, symbol_data_list)
+
+    # skip table header
+    return symbol_data_list
+
 

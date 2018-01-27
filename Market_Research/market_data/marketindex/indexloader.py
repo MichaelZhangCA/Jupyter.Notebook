@@ -37,11 +37,17 @@ def load_dow30():
     data = wiki.grab_indexfromhtml(page, MarketIndices.DOW30)
     return data
 
+def load_nasdaq100():
+    page = wiki.get_wikihtml(MarketIndices.NASDAQ100)
+    data = wiki.grab_nasdaq_fromhtml(page, MarketIndices.NASDAQ100)
+    return data
+
 def load_indexsymbol(idx):
     switcher = {
         MarketIndices.SP500.name : load_sp500,
         MarketIndices.TSX60.name : load_tsx60,
-        MarketIndices.DOW30.name : load_dow30
+        MarketIndices.DOW30.name : load_dow30,
+        MarketIndices.NASDAQ100.name : load_nasdaq100
         }
     func = switcher.get(idx.name, lambda:None)
     return func()
