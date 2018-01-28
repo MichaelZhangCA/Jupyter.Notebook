@@ -1,6 +1,6 @@
 import sys
 import iex.IexApi as iexapi
-from repository import RepoBase, ReferenceData, IndexRepo, pricerepo
+from repository import ReferenceData, IndexRepo, pricerepo
 import marketindex
 from marketindex import MarketIndices
 import quandlwrap
@@ -8,43 +8,36 @@ import mysql.connector
 from utility import datehelper
 
 
-serverName = "127.0.0.1"
-userName = 'michael'
-password = 'Password2017'
-databaseName = 'stock_market'
-
 def refresh_symbollist():
     symbolrepo = ReferenceData.SymbolRepo()
 
-    print ('==> start loading data from iex api')
+    print ('==> start loading symbol list from IEX api')
     symbols = iexapi.load_referencedata()
-    print ('==> start save data to database')
-
+    print (' -> dumped list from IEX')
     symbolrepo.addsymbol(symbols)
-
-    print ('==> symbols saved')
+    print (' -| symbols list updated')
 
 def update_companyinfo():
 
+    print ('==> start updating symbol company info from IEX api')
     symbolrepo = ReferenceData.SymbolRepo()
-
     tickers = symbolrepo.get_newtickerlist()
     
     if (len(tickers) > 0):
 
-        print ('==> start getting company info for {0} tickers'.format(len(tickers)))
+        print ('--> start getting company info for {0} tickers'.format(len(tickers)))
         cmplist = []
         batchcount = 0
         for ticker in tickers:
             cmp = iexapi.load_compaydata(ticker)
             cmplist.append(cmp)
-            print("  : added company info of '{0}'".format(ticker))
+            print(" -> added company info of '{0}'".format(ticker))
     
             batchcount += 1
             # save batch each 100 symbols
             if (batchcount >= 100):
 
-                print ('==> save the batch info')
+                print ('  : save batched company info')
                 symbolrepo.update_companyinfo(cmplist)
             
                 # reset counter
@@ -53,29 +46,35 @@ def update_companyinfo():
 
         # save company info
         if (batchcount>0):
-            print ('==> start writting left over records')
+            print (' : save left over records')
             symbolrepo.update_companyinfo(cmplist)
         
-        print ('==> all new tickers have been updated')
+        print (' -| all new tickers have been updated')
     else:
-        print ('==| there is no new ticker to update')
+        print (' -| there is no new ticker to update')
 
 
 def batchupdate_marketindices():
-    update_marketindices(MarketIndices.NASDAQ100)
-    update_marketindices(MarketIndices.SP500)
-    update_marketindices(MarketIndices.DOW30)
-    update_marketindices(MarketIndices.TSX60)
+    print("==> start loading market indices data")
 
-def update_marketindices(idx):
+    __update_marketindices(MarketIndices.NASDAQ100)
+    __update_marketindices(MarketIndices.SP500)
+    __update_marketindices(MarketIndices.DOW30)
+    __update_marketindices(MarketIndices.TSX60)
+
+    print(" -| market indices data refreshed")
+
+def __update_marketindices(idx):
     
-    print("==> start loading {0}".format(idx.name))
+    print(" -> start loading {0}".format(idx.name))
     data = marketindex.load_indexsymbol(idx)
     IndexRepo.refresh_symbol(idx.name, data)
-    print("==> {0} refreshed".format(idx.name))
+    print(" -> {0} refreshed".format(idx.name))
 
 
 def dump_symbolhistoricdata():
+
+    print("==> start refresh historic data")
     symbols = IndexRepo.get_indexsymbollist()
 
     for row in symbols:
@@ -87,17 +86,17 @@ def dump_symbolhistoricdata():
         try:
             if (lastdate is None):
                 # new symbol, download full history and dump to table
-                print("==> start dump historic data from quandl for : {}".format(symbol))
+                print("--> start dump historic data from quandl for : {}".format(symbol))
                 his = quandlwrap.load_historicdata(symbol)
                 print(" -> dump full historic data from quandl for : {}".format(symbol))
                 pricerepo.refresh_symbolhistoric(symbol, his)
-                print(" -> Completed historic data dump to database for : {}".format(symbol))
+                print(" -| Completed historic data dump to database for : {}".format(symbol))
             elif (lastdate < tbd1):
-                print("==> start dump historic data from quandl for : {}".format(symbol))
+                print("--> start dump historic data from quandl for : {}".format(symbol))
                 partialhis = quandlwrap.load_partialhistoricdata(symbol, datehelper.get_nextday(lastdate))
                 print(" -> dump partial historic data from quandl for : {}".format(symbol))
                 pricerepo.patch_symbolhistoric(symbol, partialhis)
-                print(" -> Completed patch missing history for : {}".format(symbol))
+                print(" -| Completed patch missing history for : {}".format(symbol))
             else:
                 # if symbol already up-to-date then skip
                 pass
@@ -108,20 +107,4 @@ def dump_symbolhistoricdata():
         except:
             print("  ! Got error when dumping : {0}, error : {1}".format(symbol, sys.exc_info()[0]))
 
-def main():
-    # set database connection info
-    #RepoBase.DbConnection.init_connection(serverName, databaseName, userName, password)
-    
-    # update the symbol list with latest data
-    # refresh_symbollist()
-    # patch all new symbol's company data
-    # update_companyinfo()
 
-    # update market indicies
-    # batchupdate_marketindices()
-
-    # load index live symbol list
-    dump_symbolhistoricdata()
-
-if (__name__ == '__main__'):
-    main()
