@@ -51,7 +51,16 @@
     <Compile Include="marketindex\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="quandlwrap\historicdata.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="quandlwrap\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="repository\IndexRepo.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="repository\pricerepo.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="repository\ReferenceData.py">
@@ -61,13 +70,21 @@
     <Compile Include="repository\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="utility\datehelper.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="utility\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="alpha\" />
     <Folder Include="finsymbols\" />
     <Folder Include="iex\" />
     <Folder Include="marketindex\" />
+    <Folder Include="quandlwrap\" />
     <Folder Include="repository\" />
+    <Folder Include="utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

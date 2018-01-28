@@ -1,8 +1,11 @@
+import sys
 import iex.IexApi as iexapi
-from repository import RepoBase, ReferenceData, IndexRepo
+from repository import RepoBase, ReferenceData, IndexRepo, pricerepo
 import marketindex
 from marketindex import MarketIndices
-
+import quandlwrap
+import mysql.connector
+from utility import datehelper
 
 
 serverName = "127.0.0.1"
@@ -72,6 +75,39 @@ def update_marketindices(idx):
     print("==> {0} refreshed".format(idx.name))
 
 
+def dump_symbolhistoricdata():
+    symbols = IndexRepo.get_indexsymbollist()
+
+    for row in symbols:
+        # only reload if latest date is no last business day
+        tbd1 = datehelper.get_tbd1()
+
+        symbol = row[0]; lastdate = row[1]
+
+        try:
+            if (lastdate is None):
+                # new symbol, download full history and dump to table
+                print("==> start dump historic data from quandl for : {}".format(symbol))
+                his = quandlwrap.load_historicdata(symbol)
+                print(" -> dump full historic data from quandl for : {}".format(symbol))
+                pricerepo.refresh_symbolhistoric(symbol, his)
+                print(" -> Completed historic data dump to database for : {}".format(symbol))
+            elif (lastdate < tbd1):
+                print("==> start dump historic data from quandl for : {}".format(symbol))
+                partialhis = quandlwrap.load_partialhistoricdata(symbol, datehelper.get_nextday(lastdate))
+                print(" -> dump partial historic data from quandl for : {}".format(symbol))
+                pricerepo.patch_symbolhistoric(symbol, partialhis)
+                print(" -> Completed patch missing history for : {}".format(symbol))
+            else:
+                # if symbol already up-to-date then skip
+                pass
+
+        except mysql.connector.errors.DataError as err:
+            print("  ! MySQL error : {0}".format(err.msg))
+
+        except:
+            print("  ! Got error when dumping : {0}, error : {1}".format(symbol, sys.exc_info()[0]))
+
 def main():
     # set database connection info
     #RepoBase.DbConnection.init_connection(serverName, databaseName, userName, password)
@@ -82,7 +118,10 @@ def main():
     # update_companyinfo()
 
     # update market indicies
-    batchupdate_marketindices()
+    # batchupdate_marketindices()
+
+    # load index live symbol list
+    dump_symbolhistoricdata()
 
 if (__name__ == '__main__'):
     main()

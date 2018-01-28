@@ -36,3 +36,16 @@ def refresh_symbol(indexname, symbols):
 
         cur.close()
         #cnx.close()
+
+
+def get_indexsymbollist():
+    query = "SELECT symbol, max_effective_date FROM stock_market.index_symbollist"
+    with DbConnection() as cnx:
+        cur = cnx.cursor()
+
+        # reset all valid_flag to 0
+        cur.execute(query)
+        tb = cur.fetchall()
+        cur.close()
+
+        return [(row[0], row[1]) for row in tb]

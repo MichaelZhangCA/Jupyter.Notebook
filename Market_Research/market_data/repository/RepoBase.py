@@ -13,7 +13,7 @@ class DbConnection(object):
     databasename = 'stock_market'
 
     def __init__(self, **kwargs):
-        print("  : log in as user " + self.username)
+        # print("  : log in as user " + self.username)
         self.cnx = mysql.connector.connect(user=self.username, password=self.password, host=self.servername, database=self.databasename)
         return super().__init__(**kwargs)
 
