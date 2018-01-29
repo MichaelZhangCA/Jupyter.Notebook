@@ -108,3 +108,21 @@ def dump_symbolhistoricdata():
             print("  ! Got error when dumping : {0}, error : {1}".format(symbol, sys.exc_info()[0]))
 
 
+def main():
+    # set database connection info
+    # DbConnection.init_connection(serverName, databaseName, userName, password)
+    
+    # update the symbol list with latest data
+    # refresh_symbollist()
+    # patch all new symbol's company data
+    # update_companyinfo()
+
+    # update market indicies
+    # batchupdate_marketindices()
+    __update_marketindices(MarketIndices.SP500)
+
+    # load index live symbol list
+    # dump_symbolhistoricdata()
+
+if (__name__ == '__main__'):
+    main()

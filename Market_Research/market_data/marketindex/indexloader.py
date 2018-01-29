@@ -1,6 +1,7 @@
 import marketindex.wikihelper as wiki
 # from marketindex.wikihelper import WikiPages
 from marketindex import MarketIndices
+from marketindex import datahubhelper
 
 """
 class MarketIndices(object):
@@ -22,9 +23,15 @@ class MarketIndices(object):
     NASDQA100.cachefilename = 'NASDAQ100'
 """
 
-def load_sp500():
+
+def load_sp500_from_wiki():
     page = wiki.get_wikihtml(MarketIndices.SP500)
     data = wiki.grab_indexfromhtml(page, MarketIndices.SP500)
+    return data
+
+
+def load_sp500_from_datahub():
+    data = datahubhelper.get_sp500_constituent()
     return data
 
 def load_tsx60():
@@ -44,7 +51,7 @@ def load_nasdaq100():
 
 def load_indexsymbol(idx):
     switcher = {
-        MarketIndices.SP500.name : load_sp500,
+        MarketIndices.SP500.name : load_sp500_from_wiki,
         MarketIndices.TSX60.name : load_tsx60,
         MarketIndices.DOW30.name : load_dow30,
         MarketIndices.NASDAQ100.name : load_nasdaq100

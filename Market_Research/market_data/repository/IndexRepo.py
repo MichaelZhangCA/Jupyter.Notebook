@@ -12,7 +12,7 @@ def refresh_symbol(indexname, symbols):
             "VALUES"
             "('{0}', %(symbol)s, '{1}', '9999-12-31') "
             "ON DUPLICATE KEY UPDATE "
-            "`valid_flag`=1, `update_timestamp`=current_timestamp").format(indexname, cur_date)
+            "`valid_flag`=1, `end_date`='9999-12-31', `update_timestamp`=current_timestamp").format(indexname, cur_date)
 
     # print (query)
 

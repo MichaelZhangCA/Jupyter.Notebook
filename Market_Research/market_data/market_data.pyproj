@@ -42,6 +42,7 @@
     <Compile Include="main.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="marketindex\datahubhelper.py" />
     <Compile Include="marketindex\indexloader.py">
       <SubType>Code</SubType>
     </Compile>
