@@ -1,0 +1,1 @@
+python -m notebook --port=9000 --notebook-dir=c:\jupyter.notebook
