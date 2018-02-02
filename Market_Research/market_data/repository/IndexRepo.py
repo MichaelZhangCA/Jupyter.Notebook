@@ -31,7 +31,7 @@ def refresh_symbol(indexname, symbols):
         cnx.commit()
 
         # update all invalid symbal end date as today
-        cur.execute("UPDATE `stock_market`.`market.index_constituent` SET end_date = '{1}' WHERE valid_flag=0 AND index_name='{0}'".format(indexname, cur_date))
+        cur.execute("UPDATE `stock_market`.`market.index_constituent` SET end_date = '{1}' WHERE valid_flag=0 AND index_name='{0}' AND end_date = '9999-12-31'".format(indexname, cur_date))
         cnx.commit()
 
         cur.close()
