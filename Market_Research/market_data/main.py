@@ -1,5 +1,9 @@
 from loader import refresh_symbollist, update_companyinfo, batchupdate_marketindices, dump_symbolhistoricdata
-from repository.RepoBase import *
+# from repository.RepoBase import *
+
+import sys
+sys.path.append("..\\core")
+from repobase import DbConnection
 
 serverName = "127.0.0.1"
 userName = 'michael'

@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>192644fa-02a1-4d49-be05-b51706c59451</ProjectGuid>
+    <ProjectGuid>466a501a-5d7e-457f-8533-da6094e06ecb</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Analysis.py</StartupFile>
+    <StartupFile>core.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Analysis</Name>
-    <RootNamespace>Analysis</RootNamespace>
+    <Name>core</Name>
+    <RootNamespace>core</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,24 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Analysis.py" />
-    <Compile Include="chart\stockchart.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="chart\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="main.py" />
-    <Compile Include="repository\stockpricerepo.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="repository\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="chart\" />
-    <Folder Include="repository\" />
+    <Compile Include="core.py" />
+    <Compile Include="datehelper.py" />
+    <Compile Include="repobase.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

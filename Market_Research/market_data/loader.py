@@ -1,11 +1,13 @@
 import sys
+sys.path.append("..\\core")
+
 import iex.IexApi as iexapi
 from repository import ReferenceData, IndexRepo, pricerepo
 import marketindex
 from marketindex import MarketIndices
 import quandlwrap
 import mysql.connector
-from utility import datehelper
+import datehelper
 
 
 def refresh_symbollist():

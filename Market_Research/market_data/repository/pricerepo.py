@@ -1,5 +1,6 @@
 import datetime
-from repository.RepoBase import DbConnection
+# from repository.RepoBase import DbConnection
+from repobase import DbConnection
 
 def __get_insert_sql(symbol):
     ins =("INSERT INTO `stock_market`.`market.stock_price` "

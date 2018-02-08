@@ -1,5 +1,6 @@
 import datetime
-from repository.RepoBase import DbConnection
+#from repository.RepoBase import DbConnection
+from repobase import DbConnection
 
 def refresh_symbol(indexname, symbols):
 

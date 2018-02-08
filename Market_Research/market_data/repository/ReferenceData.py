@@ -1,4 +1,5 @@
-from repository.RepoBase import DbConnection
+# from repository.RepoBase import DbConnection
+from repobase import DbConnection
 
 class SymbolRepo(object):
     """

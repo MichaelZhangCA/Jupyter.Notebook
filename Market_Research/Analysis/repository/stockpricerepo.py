@@ -1,7 +1,10 @@
 import datetime
 import numpy as np
 import pandas as pd
-from repository.repobase import DbConnection
+
+import sys
+sys.path.append("..\\..\\core")
+from repobase import DbConnection
 
 def get_stockprice(symbol):
 

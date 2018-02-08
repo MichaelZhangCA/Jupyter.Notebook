@@ -70,14 +70,7 @@
     <Compile Include="repository\ReferenceData.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="repository\RepoBase.py" />
     <Compile Include="repository\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="utility\datehelper.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="utility\__init__.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -88,7 +81,6 @@
     <Folder Include="marketindex\" />
     <Folder Include="quandlwrap\" />
     <Folder Include="repository\" />
-    <Folder Include="utility\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
