@@ -16,14 +16,20 @@ def main():
     
     # update the symbol list with latest data
     refresh_symbollist()
+    print("Symbol list updated")
+    
     # patch all new symbol's company data
     update_companyinfo()
+    print("Company info updated")
 
     # update market indicies
     batchupdate_marketindices()
+    print("Index constituent updated")
 
     # load index live symbol list
     dump_symbolhistoricdata()
+    print("")
+    print("History data updated")
 
 if (__name__ == '__main__'):
     main()

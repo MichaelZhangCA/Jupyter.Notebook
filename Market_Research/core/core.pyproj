@@ -23,6 +23,12 @@
   <ItemGroup>
     <Compile Include="core.py" />
     <Compile Include="datehelper.py" />
+    <Compile Include="logger.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="main.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="repobase.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
