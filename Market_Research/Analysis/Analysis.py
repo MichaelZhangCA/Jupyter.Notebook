@@ -1,20 +1,13 @@
-import sys
-sys.path.append("..\\core")
-import datehelper
-
-
 import pandas as pd
-
 from repository import stockpricerepo
 from chart import stockchart
+import datehelper
 
-def main():
-    print(datehelper.get_tbd1())
-
-    
+def show_stockchart():
+   
     df = stockpricerepo.get_stockprice('GOOG')
     stockchart.show_close_withadj(df)
     
 
 if (__name__ == '__main__'):
-    main()
+    show_stockchart()

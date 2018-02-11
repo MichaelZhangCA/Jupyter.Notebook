@@ -1,5 +1,4 @@
 import sys
-sys.path.append("..\\core")
 
 import iex.IexApi as iexapi
 from repository import ReferenceData, IndexRepo, pricerepo
@@ -7,8 +6,11 @@ import marketindex
 from marketindex import MarketIndices
 import quandlwrap
 import mysql.connector
-import datehelper
+
+# import from core project
+import datehelper, uihelper
 from logger import Logger
+
 
 # service name for logging
 service_name = "Market data loading service"
@@ -90,6 +92,9 @@ def dump_symbolhistoricdata():
         log.loginfo("Dump Historic Data", "==> start refresh historic data")
         symbols = IndexRepo.get_indexsymbollist()
 
+        count_total = len(symbols)
+        count_cur = 0
+
         for row in symbols:
             # only reload if latest date is no last business day
             tbd1 = datehelper.get_tbd1()
@@ -120,7 +125,9 @@ def dump_symbolhistoricdata():
             except:
                 log.logerror("Dump Historic Data", repr("  ! Got error when dumping : {0}, error : {1}".format(symbol, sys.exc_info()[0])))
 
-            print('.', end='', flush=True)
+            count_cur += 1
+            uihelper.print_progress(count_cur, count_total)
+            # print('.', end='', flush=True)
 
 def main():
     # set database connection info

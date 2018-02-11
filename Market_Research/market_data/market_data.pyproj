@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>fb8cd957-a018-4a04-905f-d85b39d6308b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>loader.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -24,6 +24,9 @@
     <Compile Include="alpha\AlphaApi.py" />
     <Compile Include="alpha\ApiConfig.py" />
     <Compile Include="alpha\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="crossreference\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="dq.py">
@@ -73,9 +76,11 @@
     <Compile Include="repository\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="alpha\" />
+    <Folder Include="crossreference\" />
     <Folder Include="finsymbols\" />
     <Folder Include="iex\" />
     <Folder Include="marketindex\" />

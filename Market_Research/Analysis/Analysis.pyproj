@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>192644fa-02a1-4d49-be05-b51706c59451</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Analysis.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -28,6 +28,7 @@
     <Compile Include="chart\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="crossreference\__init__.py" />
     <Compile Include="main.py" />
     <Compile Include="repository\stockpricerepo.py">
       <SubType>Code</SubType>
@@ -35,9 +36,11 @@
     <Compile Include="repository\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="chart\" />
+    <Folder Include="crossreference\" />
     <Folder Include="repository\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

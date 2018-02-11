@@ -1,8 +1,11 @@
-from loader import refresh_symbollist, update_companyinfo, batchupdate_marketindices, dump_symbolhistoricdata
-# from repository.RepoBase import *
+#import sys
+#sys.path.append("..\\core")
 
-import sys
-sys.path.append("..\\core")
+from crossreference import *
+
+from loader import refresh_symbollist, update_companyinfo, batchupdate_marketindices, dump_symbolhistoricdata
+
+# import from core project
 from repobase import DbConnection
 
 serverName = "127.0.0.1"
