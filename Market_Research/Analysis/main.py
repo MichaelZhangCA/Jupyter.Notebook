@@ -1,6 +1,6 @@
 from crossreference import *
 
-from Analysis import show_stockchart
+from analysis import show_stockchart
 from repobase import DbConnection
 
 serverName = "127.0.0.1"

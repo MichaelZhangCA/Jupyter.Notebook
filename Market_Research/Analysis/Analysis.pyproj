@@ -21,7 +21,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Analysis.py" />
+    <Compile Include="analysis.py" />
     <Compile Include="chart\stockchart.py">
       <SubType>Code</SubType>
     </Compile>
