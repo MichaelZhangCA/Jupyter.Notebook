@@ -1,0 +1,1 @@
+from indicator.bollingerbands import process_bollingerbands

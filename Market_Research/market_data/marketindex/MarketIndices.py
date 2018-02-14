@@ -14,10 +14,11 @@ class MarketIndex(object):
         self.cachefilename = cachename
         self.columns = col_setting
 
-SP500 = MarketIndex('S&P 500', 'List_of_S%26P_500_companies', 'SP500', {'symbol':0, 'compony':1})
-TSX60 = MarketIndex('TSX 60', 'S%26P/TSX_60', 'TSX60', {'symbol':0, 'compony':1})
-DOW30 = MarketIndex('DOW 30', 'Dow_Jones_Industrial_Average', 'DOW30', {'symbol':2, 'compony':0})
-NASDAQ100 = MarketIndex('NASDAQ 100', 'NASDAQ-100', 'NASDAQ100', {})
+# get rid of cache file name to avoid cacheing too much html/csv file
+SP500 = MarketIndex('S&P 500', 'List_of_S%26P_500_companies', '', {'symbol':0, 'compony':1})
+TSX60 = MarketIndex('TSX 60', 'S%26P/TSX_60', '', {'symbol':0, 'compony':1})
+DOW30 = MarketIndex('DOW 30', 'Dow_Jones_Industrial_Average', '', {'symbol':2, 'compony':0})
+NASDAQ100 = MarketIndex('NASDAQ 100', 'NASDAQ-100', '', {})
 
 """
 SP500.name = 'S&P 500'

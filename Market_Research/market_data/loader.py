@@ -1,4 +1,5 @@
 import sys
+import json
 
 import iex.IexApi as iexapi
 from repository import ReferenceData, IndexRepo, pricerepo
@@ -39,9 +40,12 @@ def update_companyinfo():
             cmplist = []
             batchcount = 0
             for ticker in tickers:
-                cmp = iexapi.load_compaydata(ticker)
-                cmplist.append(cmp)
-                log.loginfo('Update company info', " -> added company info of : {0}".format(ticker))
+                try:
+                    cmp = iexapi.load_compaydata(ticker)
+                    cmplist.append(cmp)
+                    log.loginfo('Update company info', " -> added company info of : {0}".format(ticker))
+                except json.decoder.JSONDecodeError:
+                    log.logwarning('Update company info', "  ? get error when reteriving cmopany info for : {0}".format(ticker))
     
                 batchcount += 1
                 # save batch each 100 symbols
