@@ -12,7 +12,12 @@ def set_dbconnection():
     DbConnection.init_connection(serverName, databaseName, userName, password)
 
 def main():
-    dataprocess.process_bollingerbands()
+    print("Processing Bolling Bands")
+    # dataprocess.process_bollingerbands()
+    print("process bolling bands done")
+
+    print("Processing Keltner Channels")
+    dataprocess.process_keltnerchannels()
     print("process bolling bands done")
 
 if (__name__ == '__main__'):
