@@ -31,11 +31,17 @@
     <Compile Include="indicator\keltnerchannels.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="indicator\simpleindicator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="indicator\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="main.py" />
     <Compile Include="repository\indicatorrepo.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="repository\simpleindicatorrepo.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="repository\stockpricerepo.py" />

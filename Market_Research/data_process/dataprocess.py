@@ -2,8 +2,8 @@ import datetime
 from crossreference import *
 import uihelper
 from repository import stockpricerepo as pricerepo
-from repository import indicatorrepo as idcrepo
-from indicator import bollingerbands as bolling, keltnerchannels as keltner
+from repository import indicatorrepo as idcrepo, simpleindicatorrepo as simpleidcrepo
+from indicator import bollingerbands as bolling, keltnerchannels as keltner, simpleindicator as simpleidc
 
 from logger import Logger
 
@@ -88,4 +88,44 @@ def process_keltnerchannels():
     log.loginfo("Process Keltner Channels", " =| Complete processing Keltner Channels")
 
 
+""" Process EMA for all stocks
+"""
+
+def process_ema(period):
+
+    log.loginfo("Process EMA", "==> Start processing {} days EMA".format(period))
+
+    # grab all symbol list from stock price table, with latest Keltner Channels date
+    idclist = simpleidcrepo.get_ema_list(period)
+    symcount = len(idclist)
+    curcount = 0
+
+    for idc in idclist:
+
+        symbol = idc['symbol']
+        max_price_date = idc['max_price_date']
+        max_idc_date = idc['max_idc_date']
+
+        # if there is no bolling bands calculated, start from the beginning
+        lastdate = max_price_date
+        if (max_idc_date is None):
+            lastdate = datetime.date(1901, 1 ,1)
+        elif (max_idc_date < max_price_date):
+            lastdate = max_idc_date
+
+        if (lastdate != max_price_date):
+            log.loginfo("Process EMA", " -> Start calculating {} days EMA for : {} from : {}".format(period, symbol, lastdate.strftime('%Y-%m-%d')))
+            # grab stock price
+            dfclose = pricerepo.get_stock_adjdata(symbol, lastdate)
+            # process
+            df = simpleidc.process_ema(dfclose, period)
+            # save
+            simpleidcrepo.refresh_ema(symbol, period, df.dropna())
+
+            log.loginfo("Process EMA", " -| Complete {} days EMA for : {}".format(period, symbol))
+
+        curcount += 1
+        uihelper.print_progress(curcount, symcount)
+
+    log.loginfo("Process EMA", " =| Complete processing {} days EMA".format(period))
 

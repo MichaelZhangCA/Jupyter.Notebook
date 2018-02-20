@@ -17,8 +17,15 @@ def main():
     print("process bolling bands done")
 
     print("Processing Keltner Channels")
-    dataprocess.process_keltnerchannels()
+    #dataprocess.process_keltnerchannels()
     print("process bolling bands done")
+
+    print("Processing EMA - 20 for Keltner Channels, 12, 26, 9 for MACD")
+    dataprocess.process_ema(20)
+    dataprocess.process_ema(12)
+    dataprocess.process_ema(26)
+    dataprocess.process_ema(9)
+    print("process EMA done")
 
 if (__name__ == '__main__'):
     main()
