@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="appvariable.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="core.py" />
     <Compile Include="datehelper.py" />
     <Compile Include="logger.py">

@@ -1,11 +1,12 @@
 import datetime
 from crossreference import *
 import uihelper
+from logger import Logger
+
 from repository import stockpricerepo as pricerepo
 from repository import indicatorrepo as idcrepo, simpleindicatorrepo as simpleidcrepo
 from indicator import bollingerbands as bolling, keltnerchannels as keltner, simpleindicator as simpleidc
-
-from logger import Logger
+import symbol_process as symproc
 
 service_name = "Data Processing Service"
 log = Logger(service_name)
@@ -115,12 +116,9 @@ def process_sma(period):
 
         if (lastdate != max_price_date):
             log.loginfo("Process SMA", " -> Start calculating {} days SMA for : {} from : {}".format(period, symbol, lastdate.strftime('%Y-%m-%d')))
-            # grab stock price
-            dfclose = pricerepo.get_stock_adjdata(symbol, lastdate)
-            # process
-            df = simpleidc.process_sma(dfclose, period)
-            # save
-            simpleidcrepo.refresh_sma(symbol, period, df.dropna())
+            
+            # call symbol process
+            symproc.process_symbol_sma(symbol, period, lastdate)
 
             log.loginfo("Process SMA", " -| Complete {} days SMA for : {}".format(period, symbol))
 
@@ -157,12 +155,9 @@ def process_ema(period):
 
         if (lastdate != max_price_date):
             log.loginfo("Process EMA", " -> Start calculating {} days EMA for : {} from : {}".format(period, symbol, lastdate.strftime('%Y-%m-%d')))
-            # grab stock price
-            dfclose = pricerepo.get_stock_adjdata(symbol, lastdate)
-            # process
-            df = simpleidc.process_ema(dfclose, period)
-            # save
-            simpleidcrepo.refresh_ema(symbol, period, df.dropna())
+
+            # call symbol process
+            symproc.process_symbol_ema(symbol, period, lastdate)
 
             log.loginfo("Process EMA", " -| Complete {} days EMA for : {}".format(period, symbol))
 
@@ -200,12 +195,9 @@ def process_atr(period):
 
         if (lastdate != max_price_date):
             log.loginfo("Process ATR", " -> Start calculating {} days ATR for : {} from : {}".format(period, symbol, lastdate.strftime('%Y-%m-%d')))
-            # grab stock price
-            dfclose = pricerepo.get_stock_adjdata(symbol, lastdate)
-            # process
-            df = simpleidc.process_atr(dfclose, period)
-            # save
-            simpleidcrepo.refresh_atr(symbol, period, df.dropna())
+            
+            # call symbol process
+            symproc.process_symbol_atr(symbol, period, lastdate)
 
             log.loginfo("Process ATR", " -| Complete {} days ATR for : {}".format(period, symbol))
 
@@ -213,4 +205,5 @@ def process_atr(period):
         uihelper.print_progress(curcount, symcount)
 
     log.loginfo("Process ATR", " =| Complete processing {} days ATR".format(period))
+
 

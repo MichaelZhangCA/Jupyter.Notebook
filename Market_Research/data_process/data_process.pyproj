@@ -21,8 +21,17 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="adhoc_process.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="batch_process.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="crossreference\__init__.py" />
     <Compile Include="dataprocess.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="idc_process.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="indicator\bollingerbands.py">
@@ -46,6 +55,9 @@
     </Compile>
     <Compile Include="repository\stockpricerepo.py" />
     <Compile Include="repository\__init__.py" />
+    <Compile Include="symbol_process.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="crossreference\" />
