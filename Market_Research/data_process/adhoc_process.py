@@ -35,3 +35,12 @@ def patch_symbol_atr(symbol, period):
         log.loginfo("Patch ATR", "--> Start patching {} days ATR for : {}".format(period, symbol))
         symproc.process_symbol_atr(symbol, period, appvariable.STOCK_START_DATE)
         log.loginfo("Patch ATR", "--| Completed patching {} days ATR for : {}".format(period, symbol))
+
+
+""" patch MACD for given symbol & periods
+"""
+def patch_symbol_macd(symbol, shortperiod, longperiod, signalperiod):
+    if(not simpleidcrepo.exists_macd(symbol, shortperiod, longperiod, signalperiod)):
+        log.loginfo("Patch MACD", "--> Start patching {}/{}/{} days MACD for : {}".format(shortperiod, longperiod, signalperiod, symbol))
+        symproc.process_symbol_macd(symbol, shortperiod, longperiod, signalperiod)
+        log.loginfo("Patch ATR", "--| Completed patching {}/{}/{} days ATR for : {}".format(shortperiod, longperiod, signalperiod, symbol))

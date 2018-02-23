@@ -40,6 +40,9 @@
     <Compile Include="indicator\keltnerchannels.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="indicator\momentumindicator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="indicator\simpleindicator.py">
       <SubType>Code</SubType>
     </Compile>
