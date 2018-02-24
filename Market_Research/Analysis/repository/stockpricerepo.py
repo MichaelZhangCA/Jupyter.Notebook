@@ -4,10 +4,11 @@ import pandas as pd
 
 from repobase import DbConnection
 
-def get_stockprice(symbol):
+def get_stock_adjdata(symbol, startdate, enddate):
 
-    query = query = "select * from (SELECT effective_date, `open`, `high`, `low`, `close`, `volume`, `adj_open`, `adj_high`, `adj_low`, `adj_close`, `adj_volume` FROM `market.stock_price` WHERE symbol = '{0}' order by effective_date DESC limit 1000) sub order by effective_date ASC".format(symbol)
-    
+    query = "SELECT effective_date, `adj_open`, `adj_high`, `adj_low`, `adj_close`, `adj_volume` FROM `market.stock_price` " \
+            "WHERE symbol = '{}' and effective_date BETWEEN '{}' AND '{}'".format(symbol, startdate.strftime('%Y-%m-%d'), enddate.strftime('%Y-%m-%d'))
+
     with DbConnection() as cnx:
         cur = cnx.cursor()
 
