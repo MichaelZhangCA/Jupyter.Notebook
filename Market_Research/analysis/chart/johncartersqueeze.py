@@ -4,6 +4,11 @@ import plotly.graph_objs as go
 
 def drawchart(symbol, df):
     
+    # enrich the data - macd up/down, bb_low > kc_low, bb_high < kc_high
+    df['macd_up'] = df.macd > df.macd.shift(-1)
+    df['squeeze'] = (df.bb_lower >= df.kc_2_lower) & (df.bb_upper <= df.kc_2_upper)     # squeeze indicator for color
+    df['squeeze_value'] = 0                                                             # squeeze value set to 0 to show the marker on zero line
+
     style_bollingerbands_middle = dict( color = ('rgb(22, 96, 167)'), width = 1, dash = 'dot')
     style_bollingerbands_upper = dict( color = ('rgb(22, 96, 167)'), width = 1, dash = 'line')
     style_bollingerbands_lower = dict( color = ('rgb(91, 154, 255)'), width = 1, dash = 'line')
@@ -19,6 +24,15 @@ def drawchart(symbol, df):
     style_kc1_upper = dict( color = ('rgb(244, 78, 66)'), width = 1, dash = 'line')
     style_kc1_lower = dict( color = ('rgb(198, 70, 61)'), width = 1, dash = 'line')
     '''
+    
+    trace_candle = go.Candlestick(x=df.index, open=df.adj_open, high=df.adj_high, low=df.adj_low, close=df.adj_close, 
+                        showlegend=False, name='close price',
+                        increasing=dict(line=dict(color= '#b1e2b6')),
+                        decreasing=dict(line=dict(color= '#51150e'))
+                        ,hoverinfo='y'
+                    )
+
+    '''
     # OHLC chart for stock price, hide hover info to make UI more readable
     trace_ohlc = go.Ohlc(x=df.index, open=df.adj_open, high=df.adj_high, low=df.adj_low, close=df.adj_close, 
                          showlegend=False, name='close price',
@@ -26,7 +40,8 @@ def drawchart(symbol, df):
                          decreasing=dict(line=dict(color= '#51150e')),
                          hoverinfo='none'
                         )
-    
+    '''
+
     trace_bb_middle = go.Scatter(x=df.index, y=df.bb_middle, name='BB Middle', legendgroup='Bollinger Bands',
                                  showlegend=False, opacity=0.5, hoverinfo='none',
                                  line = style_bollingerbands_middle
@@ -57,17 +72,27 @@ def drawchart(symbol, df):
 
     # color dict for MACD
     macd_colordict = []
+    squeeze_colordict = []
     for index, row in df.iterrows():
+        # MACD
+        color_macd = '#029107' if (row['macd']>=0 and row['macd_up']==True) else \
+                    ('#0599b7' if (row['macd']>=0 and row['macd_up']==False) else \
+                    ('#871001' if (row['macd']<0 and row['macd_up']==False) else '#d35004' ))
+        macd_colordict.append(color_macd)
+        # squeeze
+        color_squeeze = '#EFEFEF' if row['squeeze'] else '#404241'  #f21104 for red
+        squeeze_colordict.append(color_squeeze)
 
-        color =  '#029107' if (row['macd']>=0 and row['macd_up']==True) else \
-                ('#0599b7' if (row['macd']>=0 and row['macd_up']==False) else \
-                ('#871001' if (row['macd']<0 and row['macd_up']==False) else '#d35004' ))
-        macd_colordict.append(color)
 
     trace_macd = go.Bar(x=df.index, y=df.macd, name='MACD(12/26/9)', showlegend=False, 
                         marker=dict(color=macd_colordict),
                         yaxis = 'y3'
                        )
+
+    trace_squeeze = go.Scatter(x=df.index, y=df.squeeze_value, name='', showlegend=False, 
+                               mode = 'markers', marker=dict(size=6, color=squeeze_colordict), hoverinfo='none',
+                               yaxis = 'y3'
+                               )
 
     trace_wave_a = go.Bar(x=df.index, y=df.wave_a, name='WAVE A(8/34/34)', showlegend=False, 
                     marker=dict(color=['#029107' if val>=0 else '#871001' for val in df.wave_a]),
@@ -84,10 +109,10 @@ def drawchart(symbol, df):
                    )
 
     # collect all traces show on the chart
-    data = [trace_ohlc, trace_bb_middle, trace_kc_middle,
+    data = [trace_candle, trace_bb_middle, trace_kc_middle,
             trace_bb_upper, trace_bb_lower, trace_kc_2atr_upper, trace_kc_2atr_lower, 
             #tarce_volume, 
-            trace_macd, trace_wave_a, trace_wave_b, trace_wave_c]
+            trace_macd, trace_squeeze, trace_wave_a, trace_wave_b, trace_wave_c]
     
     # define xaxis template to shorten layout
     axis_template = dict(showgrid=True, zeroline=True, showline=True, rangeslider=dict(visible=False), fixedrange=True)
@@ -95,19 +120,19 @@ def drawchart(symbol, df):
         title = '{} - John Carter TTM Squeeze'.format(symbol),
         # put legend in left/top coner
         legend = dict(x=0.05, y=1.0),
-        height=800,
+        height=1000,
         margin = go.Margin(l=80,r=30,t=50,b=100),
         paper_bgcolor='#000', plot_bgcolor='#000',
 
         xaxis = axis_template,
 
         # all yaxis domains (leave gap between y and below to show the x axis labels
-        yaxis = dict(domain=[0.45,1]),
-        # yaxis2 = dict(domain=[0.4,0.5], visible=False),
-        yaxis3 = dict(domain=[0.3,0.4], title='MACD'),
-        yaxis4 = dict(domain=[0.2,0.3], visible=True, title="WAVEA"),
-        yaxis5 = dict(domain=[0.1,0.2], visible=True, title="WAVEB"),
-        yaxis6 = dict(domain=[0,0.1], visible=True, title="WAVEC")
+        yaxis = dict(domain=[0.35,1]),
+        # yaxis2 = dict(domain=[0.5,0.5], visible=False),
+        yaxis3 = dict(domain=[0.225,0.325], title='MACD'),
+        yaxis4 = dict(domain=[0.15,0.225], visible=True, title="WAVEA"),
+        yaxis5 = dict(domain=[0.075,0.15], visible=True, title="WAVEB"),
+        yaxis6 = dict(domain=[0,0.075], visible=True, title="WAVEC")
     )
 
     fig = go.Figure(data=data, layout=layout)

@@ -22,6 +22,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="analysis.py" />
+    <Compile Include="chart\johncartersqueeze.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="chart\stockchart.py">
       <SubType>Code</SubType>
     </Compile>
@@ -30,6 +33,9 @@
     </Compile>
     <Compile Include="crossreference\__init__.py" />
     <Compile Include="main.py" />
+    <Compile Include="repository\simpleindicatorrepo.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="repository\stockpricerepo.py">
       <SubType>Code</SubType>
     </Compile>

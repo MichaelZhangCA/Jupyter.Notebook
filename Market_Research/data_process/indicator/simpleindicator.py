@@ -1,4 +1,5 @@
 import pandas as pd
+import commonalgorithm as comalgo
 
 # process SMA / STDEV for x days
 def process_sma(df, period):
@@ -17,6 +18,7 @@ def process_sma(df, period):
 # process EMA for x days
 def process_ema(df, period):
     
+    """ ema logic moved to common algorithm
     # roll the first x days for fist SMA start point
     ema_rolling = df[:period]["adj_close"].rolling(period)
 
@@ -25,6 +27,9 @@ def process_ema(df, period):
     #con.head(30)
     #df['ema_con'] = ema_con
     df['ema'] = ema_con.ewm(span=period, adjust=False).mean()
+    """
+
+    df['ema'] = comalgo.xeam(df.adj_close)
     return df
 
 

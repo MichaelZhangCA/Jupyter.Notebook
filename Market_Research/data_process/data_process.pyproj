@@ -37,6 +37,9 @@
     <Compile Include="indicator\bollingerbands.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="indicator\commonalgorithm.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="indicator\keltnerchannels.py">
       <SubType>Code</SubType>
     </Compile>
