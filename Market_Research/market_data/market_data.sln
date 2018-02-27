@@ -11,6 +11,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "analysis", "..\analysis\ana
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "data_process", "..\data_process\data_process.pyproj", "{12DB4023-5B69-456E-AAF3-CD135C6AE1AA}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "repository", "..\repository\repository.pyproj", "{9247CAF8-E0C8-42F9-9DD7-76F17363984A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,8 @@ Global
 		{192644FA-02A1-4D49-BE05-B51706C59451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12DB4023-5B69-456E-AAF3-CD135C6AE1AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{12DB4023-5B69-456E-AAF3-CD135C6AE1AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9247CAF8-E0C8-42F9-9DD7-76F17363984A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9247CAF8-E0C8-42F9-9DD7-76F17363984A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

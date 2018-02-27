@@ -40,6 +40,9 @@
     <Compile Include="indicator\commonalgorithm.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="indicator\common_algorithm.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="indicator\keltnerchannels.py">
       <SubType>Code</SubType>
     </Compile>
@@ -47,6 +50,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="indicator\simpleindicator.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="indicator\trend_indicator.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="indicator\__init__.py">

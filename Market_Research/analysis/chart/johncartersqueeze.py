@@ -27,7 +27,7 @@ def drawchart(symbol, df):
     
     trace_candle = go.Candlestick(x=df.index, open=df.adj_open, high=df.adj_high, low=df.adj_low, close=df.adj_close, 
                         showlegend=False, name='close price',
-                        increasing=dict(line=dict(color= '#b1e2b6')),
+                        increasing=dict(line=dict(color= '#586b59')), #b1e2b6
                         decreasing=dict(line=dict(color= '#51150e'))
                         ,hoverinfo='y'
                     )
@@ -80,7 +80,7 @@ def drawchart(symbol, df):
                     ('#871001' if (row['macd']<0 and row['macd_up']==False) else '#d35004' ))
         macd_colordict.append(color_macd)
         # squeeze
-        color_squeeze = '#EFEFEF' if row['squeeze'] else '#404241'  #f21104 for red
+        color_squeeze = '#022ff7' if row['squeeze'] else '#404241'  #f21104 for red
         squeeze_colordict.append(color_squeeze)
 
 
