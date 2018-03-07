@@ -6,7 +6,7 @@ def drawchart(symbol, df):
     
     # enrich the data - macd up/down, bb_low > kc_low, bb_high < kc_high
     df['macd_up'] = df.macd > df.macd.shift(-1)
-    df['squeeze'] = (df.bb_lower >= df.kc_2_lower) & (df.bb_upper <= df.kc_2_upper)     # squeeze indicator for color
+    df['squeeze'] = (df.bb_lower >= df.kc_lower) & (df.bb_upper <= df.kc_upper)     # squeeze indicator for color
     df['squeeze_value'] = 0                                                             # squeeze value set to 0 to show the marker on zero line
 
     style_bollingerbands_middle = dict( color = ('rgb(22, 96, 167)'), width = 1, dash = 'dot')
@@ -14,17 +14,9 @@ def drawchart(symbol, df):
     style_bollingerbands_lower = dict( color = ('rgb(91, 154, 255)'), width = 1, dash = 'line')
 
     style_kc_middle = dict( color = ('rgb(247, 94, 39)'), width = 1, dash = 'dot')
-    style_kc2_upper = dict( color = ('rgb(247, 94, 39)'), width = 1, dash = 'line')
-    style_kc2_lower = dict( color = ('rgb(244, 118, 73)'), width = 1, dash = 'line')
+    style_kc_upper = dict( color = ('rgb(247, 94, 39)'), width = 1, dash = 'line')
+    style_kc_lower = dict( color = ('rgb(244, 118, 73)'), width = 1, dash = 'line')
 
-    '''
-    style_kc3_upper = dict( color = ('rgb(46, 155, 53)'), width = 1, dash = 'line')
-    style_kc3_lower = dict( color = ('rgb(68, 206, 77)'), width = 1, dash = 'line')
-
-    style_kc1_upper = dict( color = ('rgb(244, 78, 66)'), width = 1, dash = 'line')
-    style_kc1_lower = dict( color = ('rgb(198, 70, 61)'), width = 1, dash = 'line')
-    '''
-    
     trace_candle = go.Candlestick(x=df.index, open=df.adj_open, high=df.adj_high, low=df.adj_low, close=df.adj_close, 
                         showlegend=False, name='close price',
                         increasing=dict(line=dict(color= '#586b59')), #b1e2b6
@@ -57,11 +49,11 @@ def drawchart(symbol, df):
                                  showlegend=False, opacity=0.5, hoverinfo='none',
                                  line = style_kc_middle
                                 )
-    trace_kc_2atr_upper = go.Scatter(x=df.index, y=df.kc_2_upper, name='KC 2ATR Upper', legendgroup='Keltner Channels 2ATR',
-                                     line = style_kc2_upper
+    trace_kc_upper = go.Scatter(x=df.index, y=df.kc_upper, name='KC 2ATR Upper', legendgroup='Keltner Channels 2ATR',
+                                     line = style_kc_upper
                                     )
-    trace_kc_2atr_lower = go.Scatter(x=df.index, y=df.kc_2_lower, name='KC 2ATR Lower', legendgroup='Keltner Channels 2ATR',
-                                     line = style_kc2_lower
+    trace_kc_lower = go.Scatter(x=df.index, y=df.kc_lower, name='KC 2ATR Lower', legendgroup='Keltner Channels 2ATR',
+                                     line = style_kc_lower
                                     )
     '''
     # create volume bar chart on the bottom
@@ -94,23 +86,23 @@ def drawchart(symbol, df):
                                yaxis = 'y3'
                                )
 
-    trace_wave_a = go.Bar(x=df.index, y=df.wave_a, name='WAVE A(8/34/34)', showlegend=False, 
-                    marker=dict(color=['#029107' if val>=0 else '#871001' for val in df.wave_a]),
+    trace_wave_a = go.Bar(x=df.index, y=df.wavea, name='WAVE A(8/34/34)', showlegend=False, 
+                    marker=dict(color=['#029107' if val>=0 else '#871001' for val in df.wavea]),
                     yaxis = 'y4'
                    )
 
-    trace_wave_b = go.Bar(x=df.index, y=df.wave_b, name='WAVE B(8/89/89)', showlegend=False, 
-                marker=dict(color=['#029107' if val>=0 else '#871001' for val in df.wave_b]),
+    trace_wave_b = go.Bar(x=df.index, y=df.waveb, name='WAVE B(8/89/89)', showlegend=False, 
+                marker=dict(color=['#029107' if val>=0 else '#871001' for val in df.waveb]),
                 yaxis = 'y5'
                )
-    trace_wave_c = go.Bar(x=df.index, y=df.wave_c, name='WAVE C(8/144/144)', showlegend=False, 
-                    marker=dict(color=['#029107' if val>=0 else '#871001' for val in df.wave_c]),
+    trace_wave_c = go.Bar(x=df.index, y=df.wavec, name='WAVE C(8/144/144)', showlegend=False, 
+                    marker=dict(color=['#029107' if val>=0 else '#871001' for val in df.wavec]),
                     yaxis = 'y6'
                    )
 
     # collect all traces show on the chart
     data = [trace_candle, trace_bb_middle, trace_kc_middle,
-            trace_bb_upper, trace_bb_lower, trace_kc_2atr_upper, trace_kc_2atr_lower, 
+            trace_bb_upper, trace_bb_lower, trace_kc_upper, trace_kc_lower, 
             #tarce_volume, 
             trace_macd, trace_squeeze, trace_wave_a, trace_wave_b, trace_wave_c]
     

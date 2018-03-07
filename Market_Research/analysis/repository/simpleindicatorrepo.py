@@ -17,8 +17,9 @@ def load_sma(symbol, period, adhoc_patch=False):
         cur.execute(query)
 
         df = pd.DataFrame(cur.fetchall())
-        df.columns = cur.column_names
-        df.set_index('effective_date', inplace=True)
+        if (not df.emtpy):
+            df.columns = cur.column_names
+            df.set_index('effective_date', inplace=True)
 
         cur.close()
         return df

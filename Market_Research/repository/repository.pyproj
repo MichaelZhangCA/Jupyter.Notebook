@@ -25,7 +25,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="crossreference\__init__.py" />
+    <Compile Include="datarepository\stockpricerepo.py" />
     <Compile Include="datarepository\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="indicatorrepository\__init__.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="processrepository\indicatorrepo.py">
@@ -41,6 +45,7 @@
     <Folder Include="analysisrepository\" />
     <Folder Include="crossreference\" />
     <Folder Include="datarepository\" />
+    <Folder Include="indicatorrepository\" />
     <Folder Include="processrepository\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

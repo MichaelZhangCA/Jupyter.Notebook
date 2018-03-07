@@ -49,13 +49,25 @@
     <Compile Include="indicator\momentumindicator.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="indicator\momentum_indicator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="indicator\simpleindicator.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="indicator\trend_indicator.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="indicator\volatility_indicator.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="indicator\volume_indicator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="indicator\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="johncarter_squeeze.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="main.py" />
@@ -65,7 +77,6 @@
     <Compile Include="repository\simpleindicatorrepo.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="repository\stockpricerepo.py" />
     <Compile Include="repository\__init__.py" />
     <Compile Include="symbol_process.py">
       <SubType>Code</SubType>
