@@ -1,14 +1,24 @@
 import plotly
 import plotly.plotly as py
 import plotly.graph_objs as go
+import datetime
+from datetime import timedelta
 
 def drawchart(symbol, df):
+
+    # find the last 6 month as x axis range
+    range_enddate = df.index.max()
+    range_startdate = range_enddate + timedelta(weeks=-36)
+
+    # only keep recent 3 years rows
+    df = df.drop(df[df.index < range_enddate + timedelta(weeks=-160) ].index)
     
     # enrich the data - macd up/down, bb_low > kc_low, bb_high < kc_high
     df['macd_up'] = df.macd > df.macd.shift(-1)
-    df['squeeze'] = (df.bb_lower >= df.kc_lower) & (df.bb_upper <= df.kc_upper)     # squeeze indicator for color
     df['squeeze_value'] = 0                                                             # squeeze value set to 0 to show the marker on zero line
-
+    df['is_squeeze'] = (df.bb_lower >= df.kc_lower) & (df.bb_upper <= df.kc_upper)     # squeeze indicator for color
+    df['squeeze_line'] = (df.is_squeeze == False) & (df.is_squeeze.shift(1) == True)
+    
     style_bollingerbands_middle = dict( color = ('rgb(22, 96, 167)'), width = 1, dash = 'dot')
     style_bollingerbands_upper = dict( color = ('rgb(22, 96, 167)'), width = 1, dash = 'line')
     style_bollingerbands_lower = dict( color = ('rgb(91, 154, 255)'), width = 1, dash = 'line')
@@ -72,7 +82,7 @@ def drawchart(symbol, df):
                     ('#871001' if (row['macd']<0 and row['macd_up']==False) else '#d35004' ))
         macd_colordict.append(color_macd)
         # squeeze
-        color_squeeze = '#022ff7' if row['squeeze'] else '#404241'  #f21104 for red
+        color_squeeze = '#022ff7' if row['is_squeeze'] else '#404241'  #f21104 for red
         squeeze_colordict.append(color_squeeze)
 
 
@@ -106,28 +116,57 @@ def drawchart(symbol, df):
             #tarce_volume, 
             trace_macd, trace_squeeze, trace_wave_a, trace_wave_b, trace_wave_c]
     
+
+    # find the min & max in the range
+    y_range_high = int(df[df.index > range_startdate].adj_close.max() / 10 +1 ) * 10
+    y_range_low = int( df[df.index > range_startdate].adj_close.min() / 10 ) * 10
+
+    # print(y_range_high, y_range_low)
+
+    # fixrange=True, cannot zoom in, useful for y axis for the small indicators
+    # fixrange=Fasle with range setting, used in the main chart so it could be zoomed in
     # define xaxis template to shorten layout
-    axis_template = dict(showgrid=True, zeroline=True, showline=True, rangeslider=dict(visible=False), fixedrange=True)
+    xaxis_template = dict(type="date", showgrid=True, zeroline=True, showline=True, 
+                          rangeslider=dict(visible=False), fixedrange=False,
+                          range = [range_startdate, range_enddate]
+                     )
+
+    # generate shapes for squeeze line
+    squeezeline_style = {'color':'rgb(30,60,30)', 'width':1, 'dash':'dot'}
+    
+    squeezelines = []
+    dflines = df[df.squeeze_line==True]
+    for idx, row in dflines.iterrows():
+        squeezeline = {'type':'line', 'y0':0, 'y1':1, 'xref':'x', 'yref':'paper', 'line':squeezeline_style}
+        squeezeline['x0'] = squeezeline['x1'] = idx.strftime('%Y-%m-%d')
+        squeezelines.append(squeezeline)
+    
     layout = go.Layout(
         title = '{} - John Carter TTM Squeeze'.format(symbol),
         # put legend in left/top coner
         legend = dict(x=0.05, y=1.0),
-        height=1000,
+        height=1050,
         margin = go.Margin(l=80,r=30,t=50,b=100),
         paper_bgcolor='#000', plot_bgcolor='#000',
 
-        xaxis = axis_template,
+        xaxis = xaxis_template,
 
         # all yaxis domains (leave gap between y and below to show the x axis labels
-        yaxis = dict(domain=[0.35,1]),
+        yaxis = dict(domain=[0.35,1], autorange=False, fixedrange=False, range=[y_range_low, y_range_high]),
         # yaxis2 = dict(domain=[0.5,0.5], visible=False),
-        yaxis3 = dict(domain=[0.225,0.325], title='MACD'),
-        yaxis4 = dict(domain=[0.15,0.225], visible=True, title="WAVEA"),
-        yaxis5 = dict(domain=[0.075,0.15], visible=True, title="WAVEB"),
-        yaxis6 = dict(domain=[0,0.075], visible=True, title="WAVEC")
+        yaxis3 = dict(domain=[0.225,0.325], fixedrange=True, title='MACD'),
+        yaxis4 = dict(domain=[0.15,0.225], fixedrange=True, visible=True, title="WAVEA"),
+        yaxis5 = dict(domain=[0.075,0.15], fixedrange=True, visible=True, title="WAVEB"),
+        yaxis6 = dict(domain=[0,0.075], fixedrange=True, visible=True, title="WAVEC"),
+        
+        shapes = squeezelines
     )
 
-    fig = go.Figure(data=data, layout=layout)
+    # control model bar    
+    config = {'showLink':False, 'modeBarButtonsToRemove': ['sendDataToCloud','zoom2d','select2d','lasso2d']}
+    
+    fig = go.Figure(data=data, layout=layout )
     # standalone chart
-    plotly.offline.plot(fig, filename="{} - John Carter Squeeze Chart.html".format(symbol))
+    plotly.offline.plot(fig, filename="{} - John Carter Squeeze Chart.html".format(symbol), config=config)
+
 

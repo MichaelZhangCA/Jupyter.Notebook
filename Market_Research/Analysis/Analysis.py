@@ -1,12 +1,14 @@
-import pandas as pd
-from repository import stockpricerepo
-from chart import stockchart
-import datehelper
+from chart import johncarter_squeeze_chart as jcchart
+import johncarter_squeeze as jcdata
+from codetimer import CodeTimer
 
-def show_stockchart():
+def johncarter_study(symbol):
    
-    df = stockpricerepo.get_stockprice('GOOG')
-    stockchart.show_close_withadj(df)
+    with CodeTimer('Prepare JC Squeeze data') as ct:
+        df = jcdata.process_jcsqueeze(symbol)
+
+    # draw chart
+    jcchart.drawchart(symbol, df)
     
 
 if (__name__ == '__main__'):

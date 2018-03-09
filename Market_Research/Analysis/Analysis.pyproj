@@ -22,7 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="analysis.py" />
-    <Compile Include="chart\johncartersqueeze.py">
+    <Compile Include="chart\johncarter_squeeze_chart.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="chart\stockchart.py">

@@ -25,3 +25,47 @@ def print_progress(iteration, total, prefix='', suffix='', decimals=1, bar_lengt
     if iteration == total:
         sys.stdout.write('\n')
     sys.stdout.flush()
+
+
+class UiHelper(object):
+
+    iteration = 0
+    total = 100
+    prefix = ''
+    suffix = ''
+    decimals = 1
+    bar_length = 100
+
+    def __init__(self, total, prefix='', suffix='', decimals=1, bar_length=100, **kwargs):
+        self.iteration = 0
+        self.total = total
+        self.prefix = prefix
+        self.suffix = suffix
+        self.decimals = decimals
+        self.bar_length = bar_length
+
+        return super().__init__(**kwargs)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+
+    def progress(self, iteration):
+
+        self.iteration = iteration
+
+        str_format = "{0:." + str(self.decimals) + "f}"
+        percents = str_format.format(100 * (iteration / float(self.total)))
+        filled_length = int(round(self.bar_length * iteration / float(self.total)))
+        bar = '█' * filled_length + '-' * (self.bar_length - filled_length)
+
+        sys.stdout.write('\r%s |%s| %s%s %s' % (self.prefix, bar, percents, '%', self.suffix)),
+
+        if iteration == self.total:
+            sys.stdout.write('\n')
+        sys.stdout.flush()
+
+    def progressstep(self):
+        self.progress(self.iteration + 1)

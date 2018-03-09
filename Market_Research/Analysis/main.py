@@ -1,6 +1,6 @@
 from crossreference import *
 
-from analysis import show_stockchart
+from analysis import johncarter_chart
 from repobase import DbConnection
 
 serverName = "127.0.0.1"
@@ -12,7 +12,7 @@ def main():
     # set database connection info
     DbConnection.init_connection(serverName, databaseName, userName, password)
     
-    show_stockchart()
+    johncarter_study('AXP')
 
 if (__name__ == '__main__'):
     main()
